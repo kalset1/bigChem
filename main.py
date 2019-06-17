@@ -1,6 +1,6 @@
 """
 BigC
-Generative Art w/ Chemical Structures
+bigChem - tools for chemistry
 6.14.2019
 Python3
 """
@@ -20,6 +20,13 @@ def getFormula(formula_name):
     return content
 
 
+def getStructure(form):
+    url = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/" + form + "/property/CanonicalSMILES/TXT"
+    response = requests.get(url=url)
+    content = str(response.text)
+    return content
+
+
 def getPNG(bruh):
     url = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/" + bruh + "/PNG"
     response = requests.get(url=url)
@@ -30,8 +37,9 @@ def getPNG(bruh):
 
 class createStructure:
 
-    def __init__(self, formula):
+    def __init__(self, formula, rname):
         self.formula = formula
+        self.rname = rname
         formula = list(formula)
 
         for i in formula:
@@ -43,9 +51,11 @@ class createStructure:
 
 
     def molecular(self):
-
+        rname = self.rname
         formula = self.formula
         structure = []
+        returned_formula = formula
+        returned_formula = "".join(returned_formula)
 
         for i in ["S", "C"]:
             if i in formula:
@@ -88,11 +98,13 @@ class createStructure:
                     nums[i] = 1
 
 
-        count = 2
+        count = len(structure)
 
         for c, i in enumerate(structure):
 
-            if int(nums["H"]) != 1 and int(nums["O"]) != 0 and count != 0:
+
+
+            if int(nums["H"]) != 1 and int(nums["O"]) != 0:
                     structure[c] = list(str(i) + "HOH")
                     nums["H"] -= 2
                     nums["O"] -= 1
@@ -106,6 +118,11 @@ class createStructure:
                     structure[c] = list(i + ("OH"))
                     nums["O"] -= 1
                     nums["H"] -= 1
+
+            elif nums["F"] - 5 > -1 and count != 0:
+                structure[c] = list(i + ("F"*5))
+                nums["F"] -= 5
+                count -= 1
 
             elif nums["F"] - 3 > -1 and count != 0:
                 structure[c] = list(i + ("F"*3))
@@ -128,14 +145,20 @@ class createStructure:
         if len(structure) == 0:
             structure = formula
 
-        return structure
+        real_structure = (getStructure(rname))
+
+        return structure, real_structure
 
 
 
     def checker(self):
+
         formula = self.formula
+        rname = self.rname
+
         if "C" in formula:
-            createStructure(formula).molecular()
+            createStructure(formula, rname).molecular()
+
 
 
 
@@ -149,7 +172,11 @@ init = input("Enter the name of the chemical structure you wish to use: ").lower
 chem_formula = getFormula(init)
 png = getPNG(init)
 
-structure = (createStructure(chem_formula).molecular())
-print("The structure is: " + str(structure))
+ans = list((createStructure(chem_formula, init).molecular()))
+predicted_structure, real_structure = str(ans[0]).replace("\n", ""), str(ans[1]).replace("\n", "")
+print(predicted_structure, real_structure)
+
+
+print("\nThe predicted structure is: {}.\nThe real structure is {}.".format(predicted_structure, real_structure))
 print("The formula is: " + str(chem_formula))
 print("The png structure is opened.")
