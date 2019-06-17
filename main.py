@@ -104,37 +104,37 @@ class createStructure:
 
 
 
-            if int(nums["H"]) != 1 and int(nums["O"]) != 0:
-                    structure[c] = list(str(i) + "HOH")
+            if int(nums["H"]) != 1 and int(nums["O"]) != 0 and count != 0:
+                    structure[c] = list(str(i) + "-H-OH")
                     nums["H"] -= 2
                     nums["O"] -= 1
                     count -= 1
 
             elif int(nums["H"]) - 3 > -1 and count != 0:
-                    structure[c] = list(i + ("H"*3))
+                    structure[c] = list(i + ("-H"*3))
                     nums["H"] -= 3
 
             elif nums["O"] != 0 and nums["H"] != 0:
-                    structure[c] = list(i + ("OH"))
+                    structure[c] = list(i + ("-OH"))
                     nums["O"] -= 1
                     nums["H"] -= 1
 
             elif nums["F"] - 5 > -1 and count != 0:
-                structure[c] = list(i + ("F"*5))
+                structure[c] = list(i + ("-F"*5))
                 nums["F"] -= 5
                 count -= 1
 
             elif nums["F"] - 3 > -1 and count != 0:
-                structure[c] = list(i + ("F"*3))
+                structure[c] = list(i + ("-F"*3))
                 nums["F"] -= 3
                 count -= 1
 
             elif nums["F"] - 2 > -1:
-                structure[c] = list(i + ("F"*2))
+                structure[c] = list(i + ("-F"*2))
                 nums["F"] -= 2
 
             elif nums["H"] -2 > -1:
-                structure[c] = list(i + ("H"*2))
+                structure[c] = list(i + ("-H"*2))
                 nums["H"] -= 2
 
 
@@ -145,9 +145,15 @@ class createStructure:
         if len(structure) == 0:
             structure = formula
 
+
+        struct = ""
+        for i in structure:
+            struct = struct + "".join(i)
+
+
         real_structure = (getStructure(rname))
 
-        return structure, real_structure
+        return struct, real_structure
 
 
 
@@ -174,7 +180,7 @@ png = getPNG(init)
 
 ans = list((createStructure(chem_formula, init).molecular()))
 predicted_structure, real_structure = str(ans[0]).replace("\n", ""), str(ans[1]).replace("\n", "")
-print(predicted_structure, real_structure)
+
 
 
 print("\nThe predicted structure is: {}.\nThe real structure is {}.".format(predicted_structure, real_structure))
