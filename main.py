@@ -73,25 +73,28 @@ class createStructure:
         for i in formula:
 
             if i in types:
-
                 z = formula.index(i)
-                x = 0
+                x = 1
                 y = []
 
-                if len(formula[:z+x+2]) == len(formula):
-                    if formula[-1] in string.ascii_uppercase:
-                        nums[i] = 0
-                        break
-                    else:
-                        nums[i] = int(formula[-1])
-                        break
+                if z == len(formula)-1:
+                    break
 
-                while formula[z+1+x] not in list(string.ascii_uppercase):
+                if len(formula[:z+x+1]) == len(formula):
+                    for _ in formula[(z+1):]:
+                        nums[i] += int(_)
 
 
-                    y.extend(formula[z+1+x:z+2+x])
+                while formula[z+x] not in list(string.ascii_uppercase):
+
+
+                    y.extend(formula[z+x:z+1+x])
+
 
                     x += 1
+
+                    if z+x >= len(formula):
+                        break
 
 
                 if len(y) != 0:
@@ -154,7 +157,10 @@ class createStructure:
                 nums["H"] -= 2
 
 
-
+            for i in nums.values():
+                if i == 0:
+                    if nums["O"] - 1 > -1 and nums["O"] - 1 > -1:
+                        structure.append("[OH]")
 
 
 
