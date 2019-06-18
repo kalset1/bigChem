@@ -79,8 +79,12 @@ class createStructure:
                 y = []
 
                 if len(formula[:z+x+2]) == len(formula):
-                    nums[i] = int(formula[-1])
-                    break
+                    if formula[-1] in string.ascii_uppercase:
+                        nums[i] = 0
+                        break
+                    else:
+                        nums[i] = int(formula[-1])
+                        break
 
                 while formula[z+1+x] not in list(string.ascii_uppercase):
 
