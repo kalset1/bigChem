@@ -97,44 +97,52 @@ class createStructure:
                 else:
                     nums[i] = 1
 
-
-        count = len(structure)
+        count = 2
 
         for c, i in enumerate(structure):
 
+            if int(nums["H"]) - 3 > -1 and int(nums["O"]) != 0 and count != 0:
+                structure[c] = list("[" + str(i) + "H2OH]")
+                nums["H"] -= 3
+                nums["O"] -= 1
+                count -= 1
 
+            elif int(nums["H"]) != 0 and int(nums["O"]) != 0 and count != 0:
+                structure[c] = list("[" + str(i) + "-H=O]")
+                nums["H"] -= 1
+                nums["O"] -= 1
+                count -= 1
 
-            if int(nums["H"]) != 1 and int(nums["O"]) != 0 and count != 0:
-                    structure[c] = list(str(i) + "-H-OH")
-                    nums["H"] -= 2
-                    nums["O"] -= 1
-                    count -= 1
+            elif int(nums["O"]) - 2 > -1 and count != 0:
+                structure[c] = list("[" + str(i) + "=O=O]")
+                nums["O"] -= 2
+                count -= 1
+
+            elif int(nums["H"]) - 2 > -1 and int(nums["O"]) != 0:
+                structure[c] = list("[" + str(i) + "-H-OH]")
+                nums["H"] -= 2
+                nums["O"] -= 1
 
             elif int(nums["H"]) - 3 > -1 and count != 0:
-                    structure[c] = list(i + ("-H"*3))
-                    nums["H"] -= 3
-
-            elif nums["O"] != 0 and nums["H"] != 0:
-                    structure[c] = list(i + ("-OH"))
-                    nums["O"] -= 1
-                    nums["H"] -= 1
+                structure[c] = list("[" + i + ("-H"*3) + "]")
+                nums["H"] -= 3
 
             elif nums["F"] - 5 > -1 and count != 0:
-                structure[c] = list(i + ("-F"*5))
+                structure[c] = list("[" + i + ("-F"*5) + "]")
                 nums["F"] -= 5
                 count -= 1
 
             elif nums["F"] - 3 > -1 and count != 0:
-                structure[c] = list(i + ("-F"*3))
+                structure[c] = list("[" + i + ("-F"*3) + "]")
                 nums["F"] -= 3
                 count -= 1
 
             elif nums["F"] - 2 > -1:
-                structure[c] = list(i + ("-F"*2))
+                structure[c] = list("[" + i + ("-F"*2) + "]")
                 nums["F"] -= 2
 
             elif nums["H"] -2 > -1:
-                structure[c] = list(i + ("-H"*2))
+                structure[c] = list("[" + i + ("-H"*2) + "]")
                 nums["H"] -= 2
 
 
@@ -157,13 +165,11 @@ class createStructure:
 
 
 
-    def checker(self):
+def checker(self, formula, rname):
 
-        formula = self.formula
-        rname = self.rname
+    if "C" in formula:
+        createStructure(formula, rname).molecular()
 
-        if "C" in formula:
-            createStructure(formula, rname).molecular()
 
 
 
