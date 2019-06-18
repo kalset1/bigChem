@@ -94,9 +94,9 @@ class createStructure:
                     x += 1
 
 
-
-                if int("".join(y)) > 1:
-                    nums[i] = int("".join(y))
+                if len(y) != 0:
+                    if int("".join(y)) > 1:
+                        nums[i] = int("".join(y))
 
                 else:
                     nums[i] = 1
