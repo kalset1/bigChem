@@ -157,10 +157,13 @@ class createStructure:
                 nums["H"] -= 2
 
 
-            for i in nums.values():
-                if i == 0:
-                    if nums["O"] - 1 > -1 and nums["O"] - 1 > -1:
-                        structure.append("[OH]")
+        nums["C"] = 0
+        nums["S"] = 0
+
+        for i in list(nums.values()):
+            if i != 0:
+                if nums["O"] - 1 > -1 and nums["O"] - 1 > -1:
+                    structure.append("[OH]")
 
 
 
