@@ -13,13 +13,20 @@ from io import BytesIO
 from PIL import ImageTk, Image
 
 
+
+def structMaker(starter, elements, cnt_typ):
+    pass
+
+
+
+
 def getAll(formula_name):
     url_formula = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/" + formula_name + "/property/MolecularFormula/TXT"
     url_structure = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/" + formula_name + "/property/CanonicalSMILES/TXT"
     url_png = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/" + formula_name + "/PNG"
     response = requests.get(url=url_png)
     data_png = response.content
-    img = (Image.open(BytesIO(data)))
+    img = (Image.open(BytesIO(data_png)))
     response = requests.get(url=url_formula)
     data_formula = response.content
     response = requests.get(url=url_structure)

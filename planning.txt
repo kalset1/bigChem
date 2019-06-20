@@ -1,0 +1,15 @@
+***Create Function for Writing in the Structure***
+
+def structMaker(args):
+
+args => (starter being used, [element(s) with number wanted], type of count)
+parse through list and seperate into number wanted (dictionary based)
+type_of_count specifies whether inside or out 
+starter => C or S
+
+run through normal procedure
+
+structure[c] = list("[" + starter + elements + "]")
+elements -= number of elements used
+type_of_count -= 1
+
