@@ -13,26 +13,18 @@ from io import BytesIO
 from PIL import ImageTk, Image
 
 
-def getFormula(formula_name):
-    url = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/" + formula_name + "/property/MolecularFormula/TXT"
-    response = requests.get(url=url)
-    content = str(response.text)
-    return content
-
-
-def getStructure(form):
-    url = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/" + form + "/property/CanonicalSMILES/TXT"
-    response = requests.get(url=url)
-    content = str(response.text)
-    return content
-
-
-def getPNG(bruh):
-    url = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/" + bruh + "/PNG"
-    response = requests.get(url=url)
-    data = response.content
+def getAll(formula_name):
+    url_formula = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/" + formula_name + "/property/MolecularFormula/TXT"
+    url_structure = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/" + formula_name + "/property/CanonicalSMILES/TXT"
+    url_png = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/" + formula_name + "/PNG"
+    response = requests.get(url=url_png)
+    data_png = response.content
     img = (Image.open(BytesIO(data)))
-    return img.show()
+    response = requests.get(url=url_formula)
+    data_formula = response.content
+    response = requests.get(url=url_structure)
+    data_structure = response.content
+    return list(data_formula, data_structure), img.show()
 
 
 class createStructure:
@@ -175,10 +167,7 @@ class createStructure:
         for i in structure:
             struct = struct + "".join(i)
 
-
-        real_structure = (getStructure(rname))
-
-        return struct, real_structure
+        return struct
 
 
 
@@ -198,8 +187,7 @@ def checker(self, formula, rname):
 
 
 init = input("Enter the name of the chemical structure you wish to use: ").lower()
-chem_formula = getFormula(init)
-png = getPNG(init)
+chem_formula, real_structure = getAll(init)[0], getAll(init)[1]
 
 ans = list((createStructure(chem_formula, init).molecular()))
 predicted_structure, real_structure = str(ans[0]).replace("\n", ""), str(ans[1]).replace("\n", "")
