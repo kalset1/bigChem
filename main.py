@@ -31,7 +31,7 @@ def getAll(formula_name):
     data_formula = response.content
     response = requests.get(url=url_structure)
     data_structure = response.content
-    return list(data_formula, data_structure), img.show()
+    return [data_formula, data_structure], img.show()
 
 
 class createStructure:
@@ -39,14 +39,13 @@ class createStructure:
     def __init__(self, formula, rname):
         self.formula = formula
         self.rname = rname
+        formula = formula.decode("utf-8")
         formula = list(formula)
 
-        for i in formula:
-            if i == "\n":
-                formula.remove(i)
-            i = i.strip(" ")
-        self.formula = formula
+        while "\n" in formula:
+            formula.remove("\n")
 
+        self.formula = formula
 
 
     def molecular(self):
@@ -169,7 +168,6 @@ class createStructure:
         if len(structure) == 0:
             structure = formula
 
-
         struct = ""
         for i in structure:
             struct = struct + "".join(i)
@@ -194,13 +192,16 @@ def checker(self, formula, rname):
 
 
 init = input("Enter the name of the chemical structure you wish to use: ").lower()
-chem_formula, real_structure = getAll(init)[0], getAll(init)[1]
+info = getAll(init)
+chem_formula = info[0]
+real_structure = chem_formula[1]
+chem_formula = chem_formula[0]
 
-ans = list((createStructure(chem_formula, init).molecular()))
-predicted_structure, real_structure = str(ans[0]).replace("\n", ""), str(ans[1]).replace("\n", "")
+ans = ((createStructure(chem_formula, init).molecular()))
+predicted_structure, real_structure = str(ans).replace("\n", ""), real_structure.decode("utf8")
 
 
 
 print("\nThe predicted structure is: {}.\nThe real structure is {}.".format(predicted_structure, real_structure))
-print("The formula is: " + str(chem_formula))
+print("The formula is: " + str(chem_formula.decode("utf-8").replace("\n", "")))
 print("The png structure is opened.")
