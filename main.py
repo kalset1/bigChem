@@ -188,21 +188,35 @@ def compound():
     ans = ((createStructure(chem_formula, init).molecular()))
     predicted_structure, real_structure = str(ans).replace("\n", ""), real_structure.decode("utf8")
 
-    print("\nThe predicted structure is: {}.\nThe real structure is {}.".format(predicted_structure, real_structure))
+    print("\nThe predicted structure is: {}.\nThe real structure is {}".format(predicted_structure, real_structure))
     print("The formula is: " + str(chem_formula.decode("utf-8").replace("\n", "")))
     print("The png structure is opened.")
     time.sleep(7)
 
 
+
+def periodic():
+    pass
+
+
+
+
+def stoich():
+    pass
+
+
+
+
+#main loop
 while True:
     print(
             """
                                           hN`                                                      
    -Mo         yh.              ohysssyy  hN`                                                       
    -Mo`        -:             .mm:`   `.  hN`.--.                            
-   -Mdyooyms   ym   +ds+odms  yM/         hMysosdh`  `sho+oyh-  :Nsyoodd+yoohm/                     
-   -My`   oM+  hM   Nh   +M:  mM.         hN-   /M+  yM/...-Nd  /Ms`  -Md`  `mm                     
-   -Mo    :Ms  hM   hmyosds`  yM/         hN`   -Mo  dNsooooso  /M+   `My    mm                     
+   -Mdyooyms   ym   +ds+odms  yM/         hMysosdh    sho+oyh   .Nsyoodd+yoohm                     
+   -My`   oM+  hM   Nh   +M   mM.         hN-   /M+  yM/...-Nd  /Ms`  -Md`  `mm                     
+   -Mo    :Ms  hM   hmyosds   yM/         hN`   -Mo  dNsooooso  /M+   `My    mm                     
    -Md-  `hN-  hM   Ny++/:.   .dN+`   ./` hN`   -Mo  oM+`   ``  /M+   `My    mm                     
    .h+syhhy-   oh   dd+++odd   `/yhhhhyo  sh    .h/   /yhyyyy:  -h:   `ho    yy                     
         `          oM/```.hN                                                               
@@ -210,8 +224,15 @@ while True:
             """
 )
     print("                                  Compounds\n                        Periodic Table (Coming Soon!)\n                        Stoichiometry (Coming soon!)")
+    
     first = input("\nEnter what you want to use (type QUIT to exit): ")
+    
     if first.lower() == "compounds" or first.lower() == "compound":
         compound()
+
     elif first.upper() == "QUIT":
         sys.exit()
+
+    elif first.lower() == "periodic" or first.lower() == "periodic table":
+        periodic()
+
