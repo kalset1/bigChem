@@ -14,11 +14,6 @@ from PIL import ImageTk, Image
 
 
 
-def structMaker(starter, elements, cnt_typ):
-    pass
-
-
-
 
 def getAll(formula_name):
     url_formula = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/" + formula_name + "/property/MolecularFormula/TXT"
