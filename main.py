@@ -12,6 +12,7 @@ import string
 from io import BytesIO
 import sys
 from PIL import ImageTk, Image
+import curses
 
 
 
@@ -191,13 +192,47 @@ def compound():
     print("\nThe predicted structure is: {}.\nThe real structure is {}".format(predicted_structure, real_structure))
     print("The formula is: " + str(chem_formula.decode("utf-8").replace("\n", "")))
     print("The png structure is opened.")
-    time.sleep(7)
+    time.sleep(5)
 
 
 
 def periodic():
-    pass
+    print("\n"*100)
+    elements = {}
 
+    stdscr = curses.initscr()
+    curses.noecho()
+    curses.cbreak(True)
+    stdscr.keypad(True)
+    
+    stdscr.addstr(0, 0, """                                     Periodic Table
+    [H ]                                                                  [He]
+    [Li][Be]                                          [B ][C ][N ][O ][F ][Ne]
+    [Na][Mg]                                          [Al][Si][P ][S ][Cl][Ar]
+    [K ][Ca][Sc] [Ti][V ][Cr][Mn][Fe][Co][Ni][Cu][Zn] [Ga][Ge][As][Se][Br][Kr]
+    [Rb][Sr][Y ] [Zr][Nb][Mo][Tc][Ru][Rh][Pd][Ag][Cd] [In][Sn][Sb][Te][I ][Xe]
+    [Cs][Ba][La] [Hf][Ta][W ][Re][Os][Ir][Pt][Au][Hg] [Tl][Pb][Bi][Po][At][Rn]
+    [Fr][Ra][Ac] [Rf][Db][Sg][Bh][Hs][Mt][Ds][Rg][Cn] [Nh][Fl][Mc][Lv][Ts][Og]
+
+                 [Ce][Pr][Nd][Pm][Sm][Eu][Gd][Tb][Dy][Ho][Er][Tm][Yb][Lu]
+                 [Th][Pa][U ][Np][Pu][Am][Cm][Bk][Cf][Es][Fm][Md][No][Lr]
+
+        Use the arrow keys to go over the periodic table! Press q to quit.
+        """)
+        
+    while True:
+        c = stdscr.getch()
+        if c == ord("q"):
+            break
+        """elif c == curses.KEY_LEFT:
+            x -= 1
+        elif c == curses.KEY_RIGHT:
+            x += 1
+        elif c == curses.KEY_UP:
+            y += 1
+        elif c == curses.KEY_DOWN:
+            y -= 1"""
+    curses.endwin()
 
 
 
@@ -209,21 +244,22 @@ def stoich():
 
 #main loop
 while True:
+    print("\n"*75)
     print(
             """
-                                          hN`                                                      
-   -Mo         yh.              ohysssyy  hN`                                                       
-   -Mo`        -:             .mm:`   `.  hN`.--.                            
-   -Mdyooyms   ym   +ds+odm   yM/         hMysosdh    sho+oyh   .Nsyoodd+yoohm                     
-   -My`   oM+  hM   Nh   +M   mM.         hN-   /M+  yM/...-Nd  /Ms`  -Md`  `mm                     
-   -Mo    :Ms  hM   hmyosds   yM/         hN`   -Mo  dNsooooso  /M+   `My    mm                     
-   -Md-  `hN-  hM   Ny++/:    .dN+`   ./` hN`   -Mo  oM+`   ``  /M+   `My    mm                     
-   .h+syhhy-   oh   dd+++odd   `/yhhhhyo  sh    .h/   /yhyyyy:  -h:   `ho    yy                     
-        `          oM     hN                                                               
+                                          hN                                                      
+   NMo         {}               ohysssyy  hN                                                       
+   NMo`                       .mm:`   `.  hN_____                            
+   NMdyooym.   ym   +ds+odm   yM/         hMysosdh    sho+oyn   .Nsyoodd+yoohm                     
+   NMy    oM+  hM   Nh   +M   mM.         hN    NM   yM/    \:  /Ms`  -Md`  `mm                     
+   NMo    :Ms  hM   hmyosds   yM/         hN    NM   dnsoooos   /M+   `My    mm                     
+   NMd    hN   hM   Ny++/:    .dN+`   ./  hN    NM   os+        /M+   `My    mm                     
+   Nh+syhhy    oh   dd+++odd   `/yhhhhyo  sh    Nh    yyhyyyy:  -h:   `ho    yy                     
+                   oM     hN                                                               
                     /ooooo+                                                     
             """
 )
-    print("                                  Compounds\n                        Periodic Table (Coming Soon!)\n                        Stoichiometry (Coming soon!)")
+    print("                                  Compounds\n                               Periodic Table\n                         Stoichiometry (Coming soon!)")
     
     first = input("\nEnter what you want to use (type QUIT to exit): ")
     
