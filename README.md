@@ -14,6 +14,10 @@ To use the main program clone the repository:
 ```
 git clone https://github.com/kalset1/bigChem
 ```
+and run this in the bigChem: 
+```
+python main.py
+```
 
 ## Authors
 
