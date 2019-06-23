@@ -6,7 +6,7 @@ More coming soon!
 
 ## Prerequisites
 
-To use this program, you need PIL.
+To use this program, you need PIL and curses.
 
 ## Getting Started
 
