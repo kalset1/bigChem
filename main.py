@@ -214,13 +214,13 @@ while True:
                                           hN`                                                      
    -Mo         yh.              ohysssyy  hN`                                                       
    -Mo`        -:             .mm:`   `.  hN`.--.                            
-   -Mdyooyms   ym   +ds+odms  yM/         hMysosdh    sho+oyh   .Nsyoodd+yoohm                     
+   -Mdyooyms   ym   +ds+odm   yM/         hMysosdh    sho+oyh   .Nsyoodd+yoohm                     
    -My`   oM+  hM   Nh   +M   mM.         hN-   /M+  yM/...-Nd  /Ms`  -Md`  `mm                     
    -Mo    :Ms  hM   hmyosds   yM/         hN`   -Mo  dNsooooso  /M+   `My    mm                     
-   -Md-  `hN-  hM   Ny++/:.   .dN+`   ./` hN`   -Mo  oM+`   ``  /M+   `My    mm                     
+   -Md-  `hN-  hM   Ny++/:    .dN+`   ./` hN`   -Mo  oM+`   ``  /M+   `My    mm                     
    .h+syhhy-   oh   dd+++odd   `/yhhhhyo  sh    .h/   /yhyyyy:  -h:   `ho    yy                     
-        `          oM/```.hN                                                               
-                   `/ooooo+                                                     
+        `          oM     hN                                                               
+                    /ooooo+                                                     
             """
 )
     print("                                  Compounds\n                        Periodic Table (Coming Soon!)\n                        Stoichiometry (Coming soon!)")
