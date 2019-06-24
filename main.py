@@ -212,14 +212,14 @@ menu = ["Periodic Table",
     ]
 
 
-def printed(stdscr, current_idx):
+def printed(stdscr, current_idx, typer):
     stdscr.clear()
     h, w = stdscr.getmaxyx()
 
     
-    for idx, row in enumerate(menu):
+    for idx, row in enumerate(typer):
         x = w//2 - len(row)//2
-        y = h//2 - len(menu)//2 + idx
+        y = h//2 - len(typer)//2 + idx
         if idx == current_idx:
             stdscr.attron(curses.color_pair(1))
             stdscr.addstr(y, x, row)
@@ -239,7 +239,7 @@ def periodic(stdscr):
 
     current_row = 0
     current_pillar = 0
-    printed(stdscr, current_row)
+    printed(stdscr, current_row, menu)
 
     while True:
         c = stdscr.getch()
@@ -252,8 +252,14 @@ def periodic(stdscr):
         elif c == curses.KEY_DOWN and current_row < len(menu)-1:
             current_row += 1
 
+        elif c == curses.KEY_ENTER:
+            unit = [x for x in menu[current_row]]
+            while 1:
+                x = stdscr.getch()
+                printed(stdscr, current_row, unit)
+                stdscr.refresh()
 
-        printed(stdscr, current_row)
+        printed(stdscr, current_row, menu)
         stdscr.refresh()
 
     curses.endwin()
@@ -270,21 +276,22 @@ while True:
     print("\n"*75)
     print(
             """
-                                          hN                                                      
-   NMo         {}               ohysssyy  hN                                                       
-   NMo`                       .mm:`   `.  hN_____                            
-   NMdyooym.   ym   +ds+odm   yM/         hMysosdh    sho+oyn   .Nsyoodd+yoohm                     
-   NMy    oM+  hM   Nh   +M   mM.         hN    NM   yM/    \:  /Ms`  -Md`  `mm                     
-   NMo    :Ms  hM   hmyosds   yM/         hN    NM   dnsoooos   /M+   `My    mm                     
-   NMd    hN   hM   Ny++/:    .dN+`   ./  hN    NM   os+        /M+   `My    mm                     
-   Nh+syhhy    oh   dd+++odd   `/yhhhhyo  sh    Nh    yyhyyyy:  -h:   `ho    yy              
-                   oM     hN                                                               
-                    /ooooo+                                                     
+             .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------.  .----------------. 
+            | .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. || .--------------. |
+            | |   ______     | || |     _____    | || |    ______    | || |     ______   | || |  ____  ____  | || |  _________   | || | ____    ____ | |
+            | |  |_   _ \    | || |    |_   _|   | || |  .' ___  |   | || |   .' ___  |  | || | |_   ||   _| | || | |_   ___  |  | || ||_   \  /   _|| |
+            | |    | |_) |   | || |      | |     | || | / .'   \_|   | || |  / .'   \_|  | || |   | |__| |   | || |   | |_  \_|  | || |  |   \/   |  | |
+            | |    |  __'.   | || |      | |     | || | | |    ____  | || |  | |         | || |   |  __  |   | || |   |  _|  _   | || |  | |\  /| |  | |
+            | |   _| |__) |  | || |     _| |_    | || | \ `.___]  _| | || |  \ `.___.'\  | || |  _| |  | |_  | || |  _| |___/ |  | || | _| |_\/_| |_ | |
+            | |  |_______/   | || |    |_____|   | || |  `._____.'   | || |   `._____.'  | || | |____||____| | || | |_________|  | || ||_____||_____|| |
+            | |              | || |              | || |              | || |              | || |              | || |              | || |              | |
+            | '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' || '--------------' |
+             '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'  '----------------'                                                    
             """
 )
-    print("                                  Compounds\n                               Periodic Table\n                         Stoichiometry (Coming soon!)")
+    print("                                                                              Compounds\n                                                                            Periodic Table\n                                                                    Stoichiometry (Coming soon!)")
     
-    first = input("\nEnter what you want to use (type QUIT to exit): ")
+    first = input("\n                                                      Enter what you want to use (type QUIT to exit): ")
     
     if first.lower() == "compounds" or first.lower() == "compound":
         compound()
