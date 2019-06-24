@@ -235,7 +235,6 @@ def periodic(stdscr):
 
     curses.curs_set(0)
 
-    stdscr.keypad(True)
     curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
 
     current_row = 0
@@ -244,14 +243,16 @@ def periodic(stdscr):
 
     while True:
         c = stdscr.getch()
-        stdscr.clear()
 
         if c == ord("q"):
             break
         elif c == curses.KEY_UP and current_row > 0:
-            current_row += 1
-        elif c == curses.KEY_DOWN and current_row < len(menu)-1:
             current_row -= 1
+            
+        elif c == curses.KEY_DOWN and current_row < len(menu)-1:
+            current_row += 1
+
+
         printed(stdscr, current_row)
         stdscr.refresh()
 
