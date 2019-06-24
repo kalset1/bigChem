@@ -195,45 +195,67 @@ def compound():
     time.sleep(5)
 
 
+menu = ["Periodic Table", 
 
-def periodic():
-    print("\n"*100)
-    elements = {}
+    "[H ]                                                                  [He]",
+    "[Li][Be]                                          [B ][C ][N ][O ][F ][Ne]",
+    "[Na][Mg]                                          [Al][Si][P ][S ][Cl][Ar]",
+    "[K ][Ca][Sc] [Ti][V ][Cr][Mn][Fe][Co][Ni][Cu][Zn] [Ga][Ge][As][Se][Br][Kr]",
+    "[Rb][Sr][Y ] [Zr][Nb][Mo][Tc][Ru][Rh][Pd][Ag][Cd] [In][Sn][Sb][Te][I ][Xe]",
+    "[Cs][Ba][La] [Hf][Ta][W ][Re][Os][Ir][Pt][Au][Hg] [Tl][Pb][Bi][Po][At][Rn]",
+    "[Fr][Ra][Ac] [Rf][Db][Sg][Bh][Hs][Mt][Ds][Rg][Cn] [Nh][Fl][Mc][Lv][Ts][Og]",
+    "                       ",
+                 "[Ce][Pr][Nd][Pm][Sm][Eu][Gd][Tb][Dy][Ho][Er][Tm][Yb][Lu]",
+                 "[Th][Pa][U ][Np][Pu][Am][Cm][Bk][Cf][Es][Fm][Md][No][Lr]",
+    "               ",
+        "Use the arrow keys to go over the periodic table! Press q to quit."
+    ]
 
-    stdscr = curses.initscr()
-    curses.noecho()
-    curses.cbreak(True)
-    stdscr.keypad(True)
+
+def printed(stdscr, current_idx):
+    stdscr.clear()
+    h, w = stdscr.getmaxyx()
+
     
-    stdscr.addstr(0, 0, """                                     Periodic Table
-    [H ]                                                                  [He]
-    [Li][Be]                                          [B ][C ][N ][O ][F ][Ne]
-    [Na][Mg]                                          [Al][Si][P ][S ][Cl][Ar]
-    [K ][Ca][Sc] [Ti][V ][Cr][Mn][Fe][Co][Ni][Cu][Zn] [Ga][Ge][As][Se][Br][Kr]
-    [Rb][Sr][Y ] [Zr][Nb][Mo][Tc][Ru][Rh][Pd][Ag][Cd] [In][Sn][Sb][Te][I ][Xe]
-    [Cs][Ba][La] [Hf][Ta][W ][Re][Os][Ir][Pt][Au][Hg] [Tl][Pb][Bi][Po][At][Rn]
-    [Fr][Ra][Ac] [Rf][Db][Sg][Bh][Hs][Mt][Ds][Rg][Cn] [Nh][Fl][Mc][Lv][Ts][Og]
+    for idx, row in enumerate(menu):
+        x = w//2 - len(row)//2
+        y = h//2 - len(menu)//2 + idx
+        if idx == current_idx:
+            stdscr.attron(curses.color_pair(1))
+            stdscr.addstr(y, x, row)
+            stdscr.attroff(curses.color_pair(1))
+        else: 
+            stdscr.addstr(y, x, row)
 
-                 [Ce][Pr][Nd][Pm][Sm][Eu][Gd][Tb][Dy][Ho][Er][Tm][Yb][Lu]
-                 [Th][Pa][U ][Np][Pu][Am][Cm][Bk][Cf][Es][Fm][Md][No][Lr]
+    stdscr.refresh()
 
-        Use the arrow keys to go over the periodic table! Press q to quit.
-        """)
-        
+
+
+def periodic(stdscr):
+
+    curses.curs_set(0)
+
+    stdscr.keypad(True)
+    curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
+
+    current_row = 0
+    current_pillar = 0
+    printed(stdscr, current_row)
+
     while True:
         c = stdscr.getch()
+        stdscr.clear()
+
         if c == ord("q"):
             break
-        """elif c == curses.KEY_LEFT:
-            x -= 1
-        elif c == curses.KEY_RIGHT:
-            x += 1
-        elif c == curses.KEY_UP:
-            y += 1
-        elif c == curses.KEY_DOWN:
-            y -= 1"""
-    curses.endwin()
+        elif c == curses.KEY_UP and current_row > 0:
+            current_row += 1
+        elif c == curses.KEY_DOWN and current_row < len(menu)-1:
+            current_row -= 1
+        printed(stdscr, current_row)
+        stdscr.refresh()
 
+    curses.endwin()
 
 
 def stoich():
@@ -254,7 +276,7 @@ while True:
    NMy    oM+  hM   Nh   +M   mM.         hN    NM   yM/    \:  /Ms`  -Md`  `mm                     
    NMo    :Ms  hM   hmyosds   yM/         hN    NM   dnsoooos   /M+   `My    mm                     
    NMd    hN   hM   Ny++/:    .dN+`   ./  hN    NM   os+        /M+   `My    mm                     
-   Nh+syhhy    oh   dd+++odd   `/yhhhhyo  sh    Nh    yyhyyyy:  -h:   `ho    yy                     
+   Nh+syhhy    oh   dd+++odd   `/yhhhhyo  sh    Nh    yyhyyyy:  -h:   `ho    yy              
                    oM     hN                                                               
                     /ooooo+                                                     
             """
@@ -270,5 +292,5 @@ while True:
         sys.exit()
 
     elif first.lower() == "periodic" or first.lower() == "periodic table":
-        periodic()
+        curses.wrapper(periodic)
 
