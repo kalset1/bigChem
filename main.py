@@ -237,7 +237,7 @@ def periodic(stdscr):
     printed(stdscr, current_row, menu, current_pillar)
 
     while True:
-        stdscr.addstr(round(h/2), 60, "Navigate with the arrow keys, and Press Q to quit at anytime. Hit <-- if the cursor goes off screen.")
+        stdscr.addstr(round(h/2), (((math.floor(len(menu)//h))*6) + 12), "Navigate with the arrow keys, and Press Q to quit at anytime. Hit the opposite of the last arrow key if the cursor goes off screen.")
         c = stdscr.getch()
         if c == ord("q"):
             break
