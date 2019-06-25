@@ -13,6 +13,7 @@ from io import BytesIO
 import sys
 from PIL import ImageTk, Image
 import curses
+import math
 
 
 
@@ -195,38 +196,32 @@ def compound():
     time.sleep(5)
 
 
-menu = ["Periodic Table", 
-
-    "[H ]                                                                  [He]",
-    "[Li][Be]                                          [B ][C ][N ][O ][F ][Ne]",
-    "[Na][Mg]                                          [Al][Si][P ][S ][Cl][Ar]",
-    "[K ][Ca][Sc] [Ti][V ][Cr][Mn][Fe][Co][Ni][Cu][Zn] [Ga][Ge][As][Se][Br][Kr]",
-    "[Rb][Sr][Y ] [Zr][Nb][Mo][Tc][Ru][Rh][Pd][Ag][Cd] [In][Sn][Sb][Te][I ][Xe]",
-    "[Cs][Ba][La] [Hf][Ta][W ][Re][Os][Ir][Pt][Au][Hg] [Tl][Pb][Bi][Po][At][Rn]",
-    "[Fr][Ra][Ac] [Rf][Db][Sg][Bh][Hs][Mt][Ds][Rg][Cn] [Nh][Fl][Mc][Lv][Ts][Og]",
-    "                       ",
-                 "[Ce][Pr][Nd][Pm][Sm][Eu][Gd][Tb][Dy][Ho][Er][Tm][Yb][Lu]",
-                 "[Th][Pa][U ][Np][Pu][Am][Cm][Bk][Cf][Es][Fm][Md][No][Lr]",
-    "               ",
-        "Use the arrow keys to go over the periodic table! Press q to quit."
+menu = [
+    "[H ]", "[He]","[Li]", "[Be]", "[B ]", "[C ]", "[N ]", "[O ]", "[F ]", "[Ne]",
+    "[Na]", "[Mg]", "[Al]", "[Si]", "[P ]", "[S ]", "[Cl]", "[Ar]",
+    "[K ]", "[Ca]", "[Sc]", "[Ti]", "[V ]", "[Cr]", "[Mn]", "[Fe]", "[Co]", "[Ni]", "[Cu]", "[Zn]", "[Ga]", "[Ge]", "[As]", "[Se]", "[Br]", "[Kr]",
+    "[Rb]", "[Sr]", "[Y ]", "[Zr]", "[Nb]", "[Mo]", "[Tc]", "[Ru]", "[Rh]", "[Pd]", "[Ag]", "[Cd]", "[In]", "[Sn]", "[Sb]", "[Te]", "[I ]", "[Xe]",
+    "[Cs]", "[Ba]", "[La]", "[Hf]", "[Ta]", "[W ]", "[Re]", "[Os]", "[Ir]", "[Pt]", "[Au]", "[Hg]", "[Tl]", "[Pb]", "[Bi]", "[Po]", "[At]", "[Rn]",
+    "[Fr]", "[Ra]", "[Ac]", "[Rf]", "[Db]", "[Sg]", "[Bh]", "[Hs]", "[Mt]", "[Ds]", "[Rg]", "[Cn]", "[Nh]", "[Fl]", "[Mc]", "[Lv]", "[Ts]", "[Og]",
+    "[Ce]", "[Pr]", "[Nd]", "[Pm]", "[Sm]", "[Eu]", "[Gd]", "[Tb]", "[Dy]", "[Ho]", "[Er]", "[Tm]", "[Yb]", "[Lu]",
+    "[Th]", "[Pa]", "[U ]", "[Np]", "[Pu]", "[Am]", "[Cm]", "[Bk]", "[Cf]", "[Es]", "[Fm]", "[Md]", "[No]", "[Lr]"
     ]
 
 
-def printed(stdscr, current_idx, typer):
+def printed(stdscr, current_idx, typer, current_idy):
     stdscr.clear()
     h, w = stdscr.getmaxyx()
-
+    counter = 0
     
     for idx, row in enumerate(typer):
-        x = w//2 - len(row)//2
-        y = h//2 - len(typer)//2 + idx
-        if idx == current_idx:
+        y = 0 +(idx % h)
+        x = 0 + (math.floor(idx/h))*6
+        if (x, y) == (current_idx, current_idy):
             stdscr.attron(curses.color_pair(1))
-            stdscr.addstr(y, x, row)
+            stdscr.addstr(y, x, str(row))
             stdscr.attroff(curses.color_pair(1))
-        else: 
-            stdscr.addstr(y, x, row)
-
+        else:
+            stdscr.addstr(y, x, str(row))
     stdscr.refresh()
 
 
@@ -234,33 +229,32 @@ def printed(stdscr, current_idx, typer):
 def periodic(stdscr):
 
     curses.curs_set(0)
-
+    h, w = stdscr.getmaxyx()
     curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
 
     current_row = 0
     current_pillar = 0
-    printed(stdscr, current_row, menu)
+    printed(stdscr, current_row, menu, current_pillar)
 
     while True:
+        stdscr.addstr(round(h/2), 60, "Navigate with the arrow keys, and Press Q to quit at anytime. Hit <-- if the cursor goes off screen.")
         c = stdscr.getch()
-
         if c == ord("q"):
             break
-        elif c == curses.KEY_UP and current_row > 0:
-            current_row -= 1
-            
-        elif c == curses.KEY_DOWN and current_row < len(menu)-1:
-            current_row += 1
 
-        elif c == curses.KEY_ENTER:
-            unit = [x for x in menu[current_row]]
-            while 1:
-                x = stdscr.getch()
-                stdscr.clear()
-                printed(stdscr, current_row, unit)
-                stdscr.refresh()
+        elif c == curses.KEY_UP and current_pillar > 0:
+            current_pillar -= 1
+        
+        elif c == curses.KEY_DOWN and current_pillar < h - 1:
+            current_pillar += 1
+        
+        elif c == curses.KEY_LEFT and current_row > 0:
+            current_row -= 6
+        
+        elif c == curses.KEY_RIGHT and current_row < (math.floor(len(menu)//h))*6:
+            current_row += 6
 
-        printed(stdscr, current_row, menu)
+        printed(stdscr, current_row, menu, current_pillar)
         stdscr.refresh()
 
     curses.endwin()
