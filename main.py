@@ -180,20 +180,28 @@ def checker(self, formula, rname):
         createStructure(formula, rname).molecular()
 
 
+
+
 def compound():
+    type_chem = input(("\n"*100)+"Enter the type of chemical (i.e. covalent, ionic, metallic): ").lower()
     init = input(("\n"*100)+"Enter the name of the chemical structure you wish to use: ").lower()
     info = getAll(init)
     chem_formula = info[0]
     real_structure = chem_formula[1]
     chem_formula = chem_formula[0]
 
-    ans = ((createStructure(chem_formula, init).molecular()))
-    predicted_structure, real_structure = str(ans).replace("\n", ""), real_structure.decode("utf8")
+    if type_chem == "covalent" or type_chem == "molecular":
+        ans = ((createStructure(chem_formula, init).molecular()))
+        predicted_structure, real_structure = str(ans).replace("\n", ""), real_structure.decode("utf8")
+        print("\nThe predicted structure is: {}.\nThe real structure is {}".format(predicted_structure, real_structure))
+        print("The formula is: " + str(chem_formula.decode("utf-8").replace("\n", "")))
+        print("The png structure is opened.")
+        time.sleep(5)
 
-    print("\nThe predicted structure is: {}.\nThe real structure is {}".format(predicted_structure, real_structure))
-    print("The formula is: " + str(chem_formula.decode("utf-8").replace("\n", "")))
-    print("The png structure is opened.")
-    time.sleep(5)
+    else:
+        print("Sorry, that hasn't been added in yet!")
+
+
 
 
 menu = [
@@ -237,7 +245,8 @@ def periodic(stdscr):
     printed(stdscr, current_row, menu, current_pillar)
 
     while True:
-        stdscr.addstr(round(h/2), (((math.floor(len(menu)//h))*6) + 12), "Navigate with the arrow keys, and Press Q to quit at anytime. Hit the opposite of the last arrow key if the cursor goes off screen.")
+        stdscr.addstr(round(h/2), (((math.floor(len(menu)//h))*6) + 12), "Navigate with the arrow keys, and Press Q to quit at anytime.")
+        stdscr.addstr(round(h/2)-1, (((math.floor(len(menu)//h))*6) + 12), "If cursor goes offscreen, hit the opposite arrow key to reverse.")
         c = stdscr.getch()
         if c == ord("q"):
             break
