@@ -200,6 +200,7 @@ def compound():
 
     else:
         print("Sorry, that hasn't been added in yet!")
+        time.sleep(5)
 
 
 
