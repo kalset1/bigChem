@@ -88,14 +88,21 @@ class createStructure:
         rname = self.rname
         structure = "[" + "".join(formula) + "]"
 
-        formula[0], formula[1] = (str(formula[0]) + str(formula[1])), (str(formula[2]) + str(formula[3]))
+        if len(formula) == 4:
+            formula[0], formula[1] = (str(formula[0]) + str(formula[1])), (str(formula[2]) + str(formula[3]))
+        elif len(formula) == 3 and formula[2] in string.ascii_uppercase:
+            formula[0], formula[1] = (str(formula[0]) + str(formula[1])), (str(formula[2]))
+            del formula[2]
+        elif len(formula) == 3 and formula[2] in string.ascii_lowercase:
+            formula[0], formula[1] = str(formula[0]), (str(formula[1] + str(formula[2])))
+            del formula[2]
 
         for i in formula:
             if i not in str(range(101)):
                 z = element(i)
                 z = z.ionic_radii
                 z = list(z)
-                
+
                 for i in z:
                     if "charge=" in str(i):
                         i = str(i).replace("charge=", "")
