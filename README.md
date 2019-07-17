@@ -6,7 +6,8 @@ More coming soon!
 
 ## Prerequisites
 
-To use this program, you need PIL and curses.
+To use this program, you need PIL, mendeleev and curses.
+An internet connection is required for compounds, however database support is coming soon!
 
 ## Getting Started
 

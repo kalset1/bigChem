@@ -14,9 +14,43 @@ import sys
 from PIL import ImageTk, Image
 import curses
 import math
+from mendeleev import element
 
+menu = [
+    "[H ]", "[He]","[Li]", "[Be]", "[B ]", "[C ]", "[N ]", "[O ]", "[F ]", "[Ne]",
+    "[Na]", "[Mg]", "[Al]", "[Si]", "[P ]", "[S ]", "[Cl]", "[Ar]",
+    "[K ]", "[Ca]", "[Sc]", "[Ti]", "[V ]", "[Cr]", "[Mn]", "[Fe]", "[Co]", "[Ni]", "[Cu]", "[Zn]", "[Ga]", "[Ge]", "[As]", "[Se]", "[Br]", "[Kr]",
+    "[Rb]", "[Sr]", "[Y ]", "[Zr]", "[Nb]", "[Mo]", "[Tc]", "[Ru]", "[Rh]", "[Pd]", "[Ag]", "[Cd]", "[In]", "[Sn]", "[Sb]", "[Te]", "[I ]", "[Xe]",
+    "[Cs]", "[Ba]", "[La]", "[Hf]", "[Ta]", "[W ]", "[Re]", "[Os]", "[Ir]", "[Pt]", "[Au]", "[Hg]", "[Tl]", "[Pb]", "[Bi]", "[Po]", "[At]", "[Rn]",
+    "[Fr]", "[Ra]", "[Ac]", "[Rf]", "[Db]", "[Sg]", "[Bh]", "[Hs]", "[Mt]", "[Ds]", "[Rg]", "[Cn]", "[Nh]", "[Fl]", "[Mc]", "[Lv]", "[Ts]", "[Og]",
+    "[Ce]", "[Pr]", "[Nd]", "[Pm]", "[Sm]", "[Eu]", "[Gd]", "[Tb]", "[Dy]", "[Ho]", "[Er]", "[Tm]", "[Yb]", "[Lu]",
+    "[Th]", "[Pa]", "[U ]", "[Np]", "[Pu]", "[Am]", "[Cm]", "[Bk]", "[Cf]", "[Es]", "[Fm]", "[Md]", "[No]", "[Lr]"
+    ]
 
+elements = ["Hydrogen",'Helium','Lithium','Beryllium','Boron','Carbon','Nitrogen','Oxygen','Fluorine','Neon','Sodium','Magnesium','Aluminum','Silicon','Phosphorus','Sulfur','Chlorine',
+'Argon','Potassium','Calcium','Scandium','Titanium','Vanadium','Chromium','Manganese','Iron','Cobalt','Nickel','Copper','Zinc','Gallium','Germanium','Arsenic',
+'Selenium','Bromine','Krypton','Rubidium','Strontium','Yttrium','Zirconium','Niobium','Molybdenum','Technetium','Ruthenium','Rhodium','Palladium',
+'Silver','Cadmium','Indium','Tin','Antimony','Tellurium','Iodine','Xenon','Cesium','Barium',
+'Lanthanum','Cerium','Praseodymium','Neodymium','Promethium','Samarium','Europium','Gadolinium','Terbium','Dysprosium','Holmium','Erbium','Thulium','Ytterbium','Lutetium','Hafnium','Tantalum','Tungsten','Rhenium','Osmium','Iridium','Platinum','Gold','Mercury','Thallium','Lead','Bismuth','Polonium','Astatine','Radon','Francium','Radium','Actinium','Thorium','Protactinium','Uranium','Neptunium','Plutonium','Americium',
+'Curium','Berkelium','Californium','Einsteinium','Fermium','Mendelevium','Nobelium','Lawrencium','Rutherfordium','Dubnium','Seaborgium','Bohrium',
+'Hassium','Meitnerium','Darmstadtium','Roentgenium','Copernicium',"Nihonium","Flerovium","Moscovium","Livermorium","Tennessine","Oganesson"]
 
+values = []
+
+for i in elements:
+    x = element(i)
+    symbol = x.symbol
+    atom_number = x.atomic_number
+    atom_weight = x.mass
+    atom_radius = x.atomic_radius
+    config = x.econf
+    y = [symbol, atom_number, atom_weight, config]
+    values.append(y)
+
+element_dict = {}
+
+for i in range(len(elements)):
+    element_dict[elements[i]] = values[i]
 
 def getAll(formula_name):
     url_formula = "https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/" + formula_name + "/property/MolecularFormula/TXT"
@@ -172,16 +206,6 @@ class createStructure:
 
         return struct
 
-
-
-def checker(self, formula, rname):
-
-    if "C" in formula:
-        createStructure(formula, rname).molecular()
-
-
-
-
 def compound():
     type_chem = input(("\n"*100)+"Enter the type of chemical (i.e. covalent, ionic, metallic): ").lower()
     init = input(("\n"*100)+"Enter the name of the chemical structure you wish to use: ").lower()
@@ -202,21 +226,6 @@ def compound():
         print("Sorry, that hasn't been added in yet!")
         time.sleep(5)
 
-
-
-
-menu = [
-    "[H ]", "[He]","[Li]", "[Be]", "[B ]", "[C ]", "[N ]", "[O ]", "[F ]", "[Ne]",
-    "[Na]", "[Mg]", "[Al]", "[Si]", "[P ]", "[S ]", "[Cl]", "[Ar]",
-    "[K ]", "[Ca]", "[Sc]", "[Ti]", "[V ]", "[Cr]", "[Mn]", "[Fe]", "[Co]", "[Ni]", "[Cu]", "[Zn]", "[Ga]", "[Ge]", "[As]", "[Se]", "[Br]", "[Kr]",
-    "[Rb]", "[Sr]", "[Y ]", "[Zr]", "[Nb]", "[Mo]", "[Tc]", "[Ru]", "[Rh]", "[Pd]", "[Ag]", "[Cd]", "[In]", "[Sn]", "[Sb]", "[Te]", "[I ]", "[Xe]",
-    "[Cs]", "[Ba]", "[La]", "[Hf]", "[Ta]", "[W ]", "[Re]", "[Os]", "[Ir]", "[Pt]", "[Au]", "[Hg]", "[Tl]", "[Pb]", "[Bi]", "[Po]", "[At]", "[Rn]",
-    "[Fr]", "[Ra]", "[Ac]", "[Rf]", "[Db]", "[Sg]", "[Bh]", "[Hs]", "[Mt]", "[Ds]", "[Rg]", "[Cn]", "[Nh]", "[Fl]", "[Mc]", "[Lv]", "[Ts]", "[Og]",
-    "[Ce]", "[Pr]", "[Nd]", "[Pm]", "[Sm]", "[Eu]", "[Gd]", "[Tb]", "[Dy]", "[Ho]", "[Er]", "[Tm]", "[Yb]", "[Lu]",
-    "[Th]", "[Pa]", "[U ]", "[Np]", "[Pu]", "[Am]", "[Cm]", "[Bk]", "[Cf]", "[Es]", "[Fm]", "[Md]", "[No]", "[Lr]"
-    ]
-
-
 def printed(stdscr, current_idx, typer, current_idy):
     stdscr.clear()
     h, w = stdscr.getmaxyx()
@@ -233,8 +242,6 @@ def printed(stdscr, current_idx, typer, current_idy):
             stdscr.addstr(y, x, str(row))
     stdscr.refresh()
 
-
-
 def periodic(stdscr):
 
     curses.curs_set(0)
@@ -246,15 +253,31 @@ def periodic(stdscr):
     printed(stdscr, current_row, menu, current_pillar)
 
     while True:
+
+        for i in elements:
+            comp = list(element_dict[i])
+            sym = comp[0]
+            current_symb = (stdscr.instr(current_pillar, (current_row+1), 2)).decode("utf8")
+            current_symb = current_symb.replace(" ", "")
+            if str(sym) == current_symb:
+                name = i
+                electconfig = comp[3]
+                mass = comp[2]
+                number = comp[1]
+                stdscr.addstr(round(h/2)-3, (((math.floor(len(menu)//h))*6) + 12), "Name: " + str(name))
+                stdscr.addstr(round(h/2)-4, (((math.floor(len(menu)//h))*6) + 12), "Electron Configuration: " + str(electconfig))
+                stdscr.addstr(round(h/2)-5, (((math.floor(len(menu)//h))*6) + 12), "Mass: " + str(mass))
+                stdscr.addstr(round(h/2)-6, (((math.floor(len(menu)//h))*6) + 12), "Atomic Number: " + str(number))
+
         stdscr.addstr(round(h/2), (((math.floor(len(menu)//h))*6) + 12), "Navigate with the arrow keys, and Press Q to quit at anytime.")
         stdscr.addstr(round(h/2)-1, (((math.floor(len(menu)//h))*6) + 12), "If cursor goes offscreen, hit the opposite arrow key to reverse.")
+        
         c = stdscr.getch()
         if c == ord("q"):
             break
 
         elif c == curses.KEY_UP and current_pillar > 0:
             current_pillar -= 1
-        
         elif c == curses.KEY_DOWN and current_pillar < h - 1:
             current_pillar += 1
         
@@ -291,9 +314,9 @@ while True:
         """
 )
     print("Compounds\nPeriodic Table\nStoichiometry (Coming soon!)")
-    
+
     first = input("\nEnter what you want to use (type QUIT to exit): ")
-    
+
     if first.lower() == "compounds" or first.lower() == "compound":
         compound()
 
