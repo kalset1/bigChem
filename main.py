@@ -14,7 +14,8 @@ import sys
 from PIL import ImageTk, Image
 import curses
 import math
-from mendeleev import element
+from mendeleev import element, IonicRadius
+import string
 
 menu = [
     "[H ]", "[He]","[Li]", "[Be]", "[B ]", "[C ]", "[N ]", "[O ]", "[F ]", "[Ne]",
@@ -79,11 +80,33 @@ class createStructure:
 
         self.formula = formula
 
+
     def ionic(self):
+        charges = []
+
         formula = self.formula
         rname = self.rname
-        
+        structure = "[" + "".join(formula) + "]"
 
+        formula[0], formula[1] = (str(formula[0]) + str(formula[1])), (str(formula[2]) + str(formula[3]))
+
+        for i in formula:
+            if i not in str(range(101)):
+                z = element(i)
+                z = z.ionic_radii
+                z = list(z)
+                
+                for i in z:
+                    if "charge=" in str(i):
+                        i = str(i).replace("charge=", "")
+                        i = list(i)
+                        i = i[:i.index(",")]
+                        i = "".join(i)
+                        i = str(i).strip()
+                        charges.append(int(i))
+
+        return [structure, charges]
+        
 
     def molecular(self):
         rname = self.rname
@@ -229,7 +252,13 @@ def compound():
         time.sleep(5)
 
     elif type_chem == "ionic":
-        print("Sorry, that hasn't been added in yet!")
+        ans = ((createStructure(chem_formula, init).ionic()))
+        struct, charge = ans[0], ans[1]
+        predicted_structure, real_structure = str(struct).replace("\n", ""), real_structure.decode("utf8")
+        print("\nThe predicted structure is: {}.\nThe real structure is {}".format(predicted_structure, real_structure))
+        print("The formula is: " + str(chem_formula.decode("utf-8").replace("\n", "")))
+        print("The charge is: " + str(charge))
+        print("The png structure is opened.")
         time.sleep(5)
 
 def printed(stdscr, current_idx, typer, current_idy):
