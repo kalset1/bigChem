@@ -79,6 +79,11 @@ class createStructure:
 
         self.formula = formula
 
+    def ionic(self):
+        formula = self.formula
+        rname = self.rname
+        
+
 
     def molecular(self):
         rname = self.rname
@@ -86,6 +91,13 @@ class createStructure:
         structure = []
         returned_formula = formula
         returned_formula = "".join(returned_formula)
+
+        if "l" in formula and "C" in formula:
+            if formula.index("C") - formula.index("l") == -1:
+                cindex = formula.index("C")
+                del formula[cindex] 
+                del formula[formula.index("l")]
+                formula[cindex] = "Cl"
 
         for i in ["S", "C"]:
             if i in formula:
@@ -97,12 +109,12 @@ class createStructure:
                         y = list(i)
                         structure.extend(y)
 
-        types = ["C", "H", "O", "N", "F", "S"]
-        nums = {"S":0, "F":0, "C":0, "H": 0, "O" : 0, "N": 0}
+        types = ["C", "H", "O", "N", "F", "S", "I", "Cl"]
+        nums = {"S":0, "F":0, "C":0, "H": 0, "O" : 0, "N": 0, "I" : 0, "Cl" : 0}
 
         for i in formula:
 
-            if i in types:
+            if i.upper() in types:
                 z = formula.index(i)
                 x = 1
                 y = []
@@ -114,25 +126,19 @@ class createStructure:
                     for _ in formula[(z+1):]:
                         nums[i] += int(_)
 
-
                 while formula[z+x] not in list(string.ascii_uppercase):
-
-
                     y.extend(formula[z+x:z+1+x])
-
-
                     x += 1
 
                     if z+x >= len(formula):
                         break
 
-
                 if len(y) != 0:
                     if int("".join(y)) > 1:
                         nums[i] = int("".join(y))
 
-                else:
-                    nums[i] = 1
+                    else:
+                        nums[i] = 1
 
         count_in = 2
         count_out = len(structure) - 2
@@ -207,7 +213,7 @@ class createStructure:
         return struct
 
 def compound():
-    type_chem = input(("\n"*100)+"Enter the type of chemical (i.e. covalent, ionic, metallic): ").lower()
+    type_chem = input(("\n"*100)+"Enter the type of chemical compound (covalent or ionic): ").lower()
     init = input(("\n"*100)+"Enter the name of the chemical structure you wish to use: ").lower()
     info = getAll(init)
     chem_formula = info[0]
@@ -222,7 +228,7 @@ def compound():
         print("The png structure is opened.")
         time.sleep(5)
 
-    else:
+    elif type_chem == "ionic":
         print("Sorry, that hasn't been added in yet!")
         time.sleep(5)
 
