@@ -2,6 +2,7 @@
 
 This repository is meant to be used as a tool to aid in chemistry.
 It features a structure generator, compound fetcher, and a PNG fetcher.
+Simply run main.py, which is the CLI.
 More coming soon!
 
 ## Prerequisites
