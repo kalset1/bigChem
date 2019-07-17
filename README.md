@@ -3,6 +3,7 @@
 This repository is meant to be used as a tool to aid in chemistry.
 It features a structure generator, compound fetcher, and a PNG fetcher.
 Simply run main.py, which is the CLI.
+The ionic compound component does not work yet with compounds that are not just two elements (i.e. NaCl does work, Al2S3 does not)
 More coming soon!
 
 ## Prerequisites
